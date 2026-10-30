@@ -99,6 +99,13 @@ provision:
     curl -fsSL https://raw.githubusercontent.com/devcamptech/devbox/main/bootstrap.sh -o "$HOME/bootstrap.sh"
     chmod +x "$HOME/bootstrap.sh"
 
+    # Claude Code's instructions for the devbox (check logins first), refreshed on every boot and imported from
+    # the user's CLAUDE.md, which is created if missing and otherwise only gets the import line.
+    mkdir -p "$HOME/.claude"
+    curl -fsSL https://raw.githubusercontent.com/devcamptech/devbox/main/claude/devbox.md -o "$HOME/.claude/devbox.md"
+    touch "$HOME/.claude/CLAUDE.md"
+    grep -qxF '@~/.claude/devbox.md' "$HOME/.claude/CLAUDE.md" || printf '@~/.claude/devbox.md\n' >> "$HOME/.claude/CLAUDE.md"
+
 probes:
 - mode: readiness
   description: tools installed
